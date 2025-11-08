@@ -26,29 +26,6 @@
         "rgb_matrix": true,
         "rgblight": false
     },
-    "keycodes": [
-        {
-            "key": "KC_USB"
-        },
-        {
-            "key": "KC_BT1"
-        },
-        {
-            "key": "KC_BT2"
-        },
-        {
-            "key": "KC_BT3"
-        },
-        {
-            "key": "KC_BT4"
-        },
-        {
-            "key": "KC_BT5"
-        },
-        {
-            "key": "KC_2G4"
-        }
-    ],
     "matrix_pins": {
         "cols": ["C1", "C2", "C3", "A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "C4", "C5", "B0", "B1", "B2", "B10"],
         "rows": ["B15", "C6", "C7", "C8", "C9", "B14"]
@@ -56,22 +33,32 @@
     "processor": "WB32FQ95",
     "rgb_matrix": {
         "animations": {
-            "breathing": true,
-            "cycle_all": true,
-            "cycle_left_right": true,
-            "cycle_out_in": true,
-            "cycle_out_in_dual": true,
-            "cycle_pinwheel": true,
-            "cycle_spiral": true,
-            "cycle_up_down": true,
-            "dual_beacon": true,
-            "multisplash": true,
-            "rainbow_beacon": true,
-            "rainbow_moving_chevron": true,
-            "raindrops": true,
+            "band_pinwheel_val": true,
+            "band_val": true,
+            "band_sat": false,
+            "band_spiral_sat": false,
+            "band_spiral_val": true,
             "solid_color": true,
-            "solid_reactive": true,
-            "solid_reactive_simple": true,
+            "breathing": true,
+            "cycle_all": false,
+            "cycle_left_right": false,
+            "cycle_up_down": false,
+            "cycle_out_in": false,
+            "cycle_out_in_dual": false,
+            "rainbow_moving_chevron": false,
+            "cycle_pinwheel": false,
+            "cycle_spiral": false,
+            "dual_beacon": false,
+            "rainbow_beacon": false,
+            "raindrops": false,
+            "pixel_rain": true,
+            "digital_rain": true,
+            "solid_reactive_simple": false,
+            "solid_reactive": false,
+            "solid_reactive_multinexus": true,
+            "solid_reactive_multiwide": true,
+            "solid_multisplash": true,
+            "multisplash": false,
             "typing_heatmap": true
         },
         "driver": "ws2812",
@@ -182,10 +169,10 @@
             {"x": 210, "y": 55, "flags": 2},
             {"x": 224, "y": 60, "flags": 2}
         ],
-        "max_brightness": 100,
+        "max_brightness": 255,
         "sleep": false,
         "speed_steps": 35,
-        "timeout": 60000,
+        "timeout": 240000,
         "val_steps": 20
     },
     "url": "",
