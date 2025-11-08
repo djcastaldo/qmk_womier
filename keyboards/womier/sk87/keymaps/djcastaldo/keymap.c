@@ -123,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //:  _______________________________________________________________________________________   ________________  :
 //: |Quit||SOC1||SOC2||SOC3||SOC4||SOC5||SOC6||SOC7||SOC8||SOC9||SOC0||    ||    ||         | |LLck||TPrv||APrv| :
 //: |____||____||____||____||____||____||____||____||____||____||____||____||____||_________| |____||____||____| :
-//: |MAcel2 ||QLok||    ||    ||    ||Time||    ||P7  ||P8  ||P9  ||+ - ||    ||    ||OverVw| |FDel||TNxt||ANxt| :
+//: |MAcel2 ||QLok||    ||    ||    ||Time||    ||P7  ||P8  ||P9  ||+ - ||CsrL||CrsR||OverVw| |FDel||TNxt||ANxt| :
 //: |_______||____||____||____||____||____||____||____||____||____||____||____||____||______| |____||____||____| :
 //: |        ||Apps||    ||    ||    ||    ||    ||P4  ||P5  ||P6  ||* / ||Num ||           |                    :
 //: |________||____||____||____||____||____||____||____||____||____||____||____||___________|        ____        :
@@ -135,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [SFT_LAYR] = LAYOUT_ansi(
 	_______, KC_BRIU, KC_BRID, KC_MCTL, KC_LPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_CALC, FHOME, FDOCS, FDOWNL,
 	FORCEQUIT, SOC1, SOC2, SOC3, SOC4, SOC5, SOC6, SOC7, SOC8, SOC9, SOC0, _______, _______, _______, LLOCK, V_TAB_PRV, SCMDGRAVE,
-	MK_ACCEL2, FQLOOK, _______, _______, _______, TIMESTAMP, _______, KC_P7, KC_P8, KC_P9, DUAL_PLUSMIN, _______, _______, TOVERVIEW, FDELETE, V_TAB_NXT, CMDGRAVE,
+	MK_ACCEL2, FQLOOK, _______, _______, _______, TIMESTAMP, _______, KC_P7, KC_P8, KC_P9, DUAL_PLUSMIN, CURSORL, CURSORR, TOVERVIEW, FDELETE, V_TAB_NXT, CMDGRAVE,
 	_______, FAPPS, _______, _______, _______, _______, _______, KC_P4, KC_P5, KC_P6, DUAL_MULTDIV, KC_NUM, _______, _______,
 	_______, _______, MK_ACCEL2, _______, _______, _______, _______, _______, KC_P1, KC_P2, KC_P3, FSTATBAR, KC_MS_BTN2, KC_MS_UP,
 	_______, _______, MK_ACCEL0, _______,            KC_P0,          _______, KC_PDOT, OPT_HOLD, MK_HOLD, KC_MS_BTN1, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT
