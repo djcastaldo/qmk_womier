@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  [MAC_BASE]
 //,--------------------------------------------------------------------------------------------------------------,
 //:  ____   ______________________   ______________________   ______________________    ____   ________________  :
-//: |Esc | | F1 || F2 || F3 || F4 | | F5 || F6 || F7 || F8 | | F9 || F10|| F11|| F12|  |F13 | |Snap||Siri||Glob| :
+//: |Esc | | F1 || F2 || F3 || F4 | | F5 || F6 || F7 || F8 | | F9 || F10|| F11|| F12|  |F14 | |Snap||Siri||Glob| :
 //: |____| |____||____||____||____| |____||____||____||____| |____||____||____||____|  |____| |____||____||____| :
 //:  _______________________________________________________________________________________   ________________  :
 //: | `  || 1  || 2  || 3  || 4  || 5  || 6  || 7  || 8  || 9  || 0  || -  || =  || Bkspace | |Ins ||Home||PgUp| :
@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //: |_____||_____||_____||_____________________________________||_____||_____||_____||______| |____||____||____| :
 //`--------------------------------------------------------------------------------------------------------------`
     [MAC_BASE] = LAYOUT_ansi(
-	DUAL_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_F13, DUAL_SNAP, US_SIRI, AP_GLOB,
+	DUAL_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_F14, DUAL_SNAP, US_SIRI, AP_GLOB,
 	KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, BSPCFAST, KC_INS, KC_HOME, KC_PGUP,
 	LT(TMUX_LAYR,KC_TAB), KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, LT(EMO_LAYR,KC_BSLS), KC_DEL, KC_END, KC_PGDN,
 	TD(CAPS_LAYR), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_NO, KC_ENT,
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  [WIN_BASE]
 //,--------------------------------------------------------------------------------------------------------------,
 //:  ____   ______________________   ______________________   ______________________    ____   ________________  :
-//: |Esc | | F1 || F2 || F3 || F4 | | F5 || F6 || F7 || F8 | | F9 || F10|| F11|| F12|  |Calc| |PScr||Ctan||RGB | :
+//: |Esc | | F1 || F2 || F3 || F4 | | F5 || F6 || F7 || F8 | | F9 || F10|| F11|| F12|  |F14 | |PScr||Ctan||RGB | :
 //: |____| |____||____||____||____| |____||____||____||____| |____||____||____||____|  |____| |____||____||____| :
 //:  _______________________________________________________________________________________   ________________  :
 //: | `  || 1  || 2  || 3  || 4  || 5  || 6  || 7  || 8  || 9  || 0  || -  || =  || Bkspace | |Ins ||Home||PgUp| :
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //: |_____||_____||_____||_____________________________________||_____||_____||_____||______| |____||____||____| :
 //`--------------------------------------------------------------------------------------------------------------`
     [WIN_BASE] = LAYOUT_ansi(
-	DUAL_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_F13, DUAL_SNAP, US_CATANA, AP_GLOB,
+	DUAL_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_F14, DUAL_SNAP, US_CATANA, AP_GLOB,
 	KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, BSPCFAST, KC_INS, KC_HOME, KC_PGUP,
 	LT(TMUX_LAYR,KC_TAB), KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, TD(DYN_LAYR), KC_DEL, KC_END, KC_PGDN,
 	TD(CAPS_LAYR), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_NO, KC_ENT,
@@ -93,12 +93,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  [FN_LAYR]
 //,--------------------------------------------------------------------------------------------------------------,
 //:  ____   ______________________   ______________________   ______________________    ____   ________________  :
-//: |    | |    ||    ||VRep||    | |CkOt||    ||    ||GLog| |Add ||Cmit||    ||Push|  |F14 | |Snap||Siri||News| :
+//: |    | |    ||    ||VRep||    | |CkOt||    ||    ||GLog| |Add ||Cmit||    ||Push|  |F13 | |Snap||Siri||News| :
 //: |____| |____||____||____||____| |____||____||____||____| |____||____||____||____|  |____| |____||____||____| :
 //:  _______________________________________________________________________________________   ________________  :
 //: |    ||    ||    ||    ||    ||    ||    ||    ||    ||    ||Time||Arro||Wave||         | |LLck||TPrv||WPrv| :
 //: |____||____||____||____||____||____||____||____||____||____||____||____||____||_________| |____||____||____| :
-//: |M(TMUX)||WMa2||WMa1||Mail||RPho||WPho||    ||Uni ||    ||    ||    ||Rec1||Rec2||      | |    ||TNxt||WNxt| :
+//: |M(TMUX)||WMa2||WMa1||Mail||RPho||WPho||    ||Uni ||    ||    ||    ||Rec1||Rec2||      | |SLck||TNxt||WNxt| :
 //: |_______||____||____||____||____||____||____||____||____||____||____||____||____||______| |____||____||____| :
 //: |        ||Addr||City||ZIP ||Phon||    ||    ||    ||    ||Lead||    ||    ||           |                    :
 //: |________||____||____||____||____||____||____||____||____||____||____||____||___________|        ____        :
@@ -108,9 +108,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //: |_____||_____||_____||_____________________________________||_____||_____||_____||______| |____||____||____| :
 //`--------------------------------------------------------------------------------------------------------------`
     [FN_LAYR] = LAYOUT_ansi(
-	_______, _______, _______, VI_REPLACE, _______, GIT_CHKOUT, _______, _______, GIT_LOG, GIT_ADD, GIT_COMMIT, _______, GIT_PUSH, KC_F14, SSMENU, MOD_SIRI, GNEWS,
+	_______, _______, _______, VI_REPLACE, _______, GIT_CHKOUT, _______, _______, GIT_LOG, GIT_ADD, GIT_COMMIT, _______, GIT_PUSH, KC_F13, SSMENU, MOD_SIRI, GNEWS,
 	_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, TIMESTAMP, ARROW, WAVE, _______, LLOCK, V_TAB_PRV, V_WSPC_PRV,
-	MO(TMUX_LAYR), SECRET3, SECRET2, SECRET1, SECRET8, SECRET9, _______, UNICODE, _______, _______, _______, DM_REC1, DM_REC2, _______, _______, V_TAB_NXT, V_WSPC_NXT,
+	MO(TMUX_LAYR), SECRET3, SECRET2, SECRET1, SECRET8, SECRET9, _______, UNICODE, _______, _______, _______, DM_REC1, DM_REC2, _______, KC_SCRL, V_TAB_NXT, V_WSPC_NXT,
 	_______, SECRET4, SECRET5, SECRET6, SECRET7, _______, _______, _______, _______, QK_LEAD, _______, _______, _______, _______,
 	MO(SFT_LAYR), _______, _______, SECRET10, SECRET11, SECRET12, SECRET13, _______, _______, DM_PLY1, DM_PLY2, _______, MO(SFT_LAYR), _______,
 	_______, WM_SYM, MO(KCTL_LAYR), _______,          _______,           _______, MO(KCTL_LAYR), _______, _______, _______, _______, _______, _______
