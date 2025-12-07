@@ -232,7 +232,10 @@ uint32_t wls_action_timer;
 #endif
 #endif
 #if defined(KEYBOARD_IS_WOMIER)
-static bool waking = false;
+// wake tracking
+static bool usb_resumed = false; // usb just resumed from suspend
+static bool wake_started = false; // first physical keypress seen
+static bool waking = false; // we are in wake-suppression window
 static uint32_t wake_timer = 0;
 // Track modifiers held during wake
 static uint8_t held_modifiers = 0;
@@ -354,13 +357,25 @@ bool process_record_userspace(uint16_t keycode, keyrecord_t *record) {
     #endif
 
     #if defined(KEYBOARD_IS_WOMIER)
+    if (usb_resumed && !wake_started && record->event.pressed) {
+        // start wake caputre window now
+        wake_started = true;
+        waking = true;
+        usb_resumed = false;
+
+        wake_timer = timer_read32();
+
+        // clear previous buffers
+        held_modifiers = 0;
+        for (int i=0; i<6; i++) held_keys[i] = 0;
+    }
     if (waking && record->event.pressed && get_highest_layer(layer_state) != LOCK_LAYR) {
         // track modifier keys
         if ((keycode) == KC_LCTL || (keycode) == KC_RCTL || \
             (keycode) == KC_LSFT || (keycode) == KC_RSFT || \
             (keycode) == KC_LALT || (keycode) == KC_RALT || \
             (keycode) == KC_LGUI || (keycode) == KC_RGUI) {
-            held_modifiers |= get_mods(); // store current modifier state
+            held_modifiers |= MOD_BIT(keycode); // store mod key
         }
         else {
             //track normal keys
@@ -375,7 +390,7 @@ bool process_record_userspace(uint16_t keycode, keyrecord_t *record) {
         return false;  
     }
     // After wake window, replay any held keys/modifiers
-    if (waking && timer_elapsed32(wake_timer) >= 250) {
+    if (waking && timer_elapsed32(wake_timer) >= 200) {
         waking = false;
         
         // only need to do this replay logic if not on LOCK_LAYR
@@ -386,6 +401,8 @@ bool process_record_userspace(uint16_t keycode, keyrecord_t *record) {
             // Replay modifiers
             if (held_modifiers) {
                 add_mods(held_modifiers);
+                send_keyboard_report();
+                wait_ms(10);
             }
 
             // Replay normal keys
@@ -5102,8 +5119,9 @@ void suspend_power_down_user(void) {
 void suspend_wakeup_init_user(void) {
     dprintf("suspend_wakeup_init_user()\n");
     #if defined(KEYBOARD_IS_WOMIER)
-    waking = true;
-    wake_timer = timer_read32();
+    usb_resumed = true;
+    wake_started = false;
+    waking = false;
     held_modifiers = 0;
     for (int i=0; i<6; i++) held_keys[i] = 0;
     #elif defined(KEYBOARD_IS_BRIDGE)
