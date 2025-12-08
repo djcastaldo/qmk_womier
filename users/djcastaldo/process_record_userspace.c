@@ -235,13 +235,28 @@ uint32_t wls_action_timer;
 // wake tracking
 #define WAKE_STABILIZE_MS 40      // time for matrix to settle
 #define WAKE_REPLAY_MS    250     // delay before replay begins
+#define REPLAY_CHECK_MS   50      // how often to retry replay if host not ready
 static bool waking = false; // we are in wake-suppression window
 static bool matrix_stable = false;
 static uint32_t wake_timer = 0;
 static uint32_t stable_timer = 0;
+static uint32_t last_replay_check = 0;
 // Track modifiers held during wake
 static uint8_t held_modifiers = 0;
 static uint16_t held_keys[6] = {0};  // up to 6 keys for standard
+// use this to see if this is very first power on or a real resume from suspend
+static bool first_power_on = true;
+// ----------------------------------------
+// HOST READY CHECK
+// ----------------------------------------
+static bool host_ready(void) {
+#if defined(WIRELESS_ENABLE)
+    // Womier's wireless state enum
+    return (*md_getp_state() == MD_STATE_CONNECTED);
+#else
+    return true;   // wired boards always ready
+#endif
+}
 #endif
 static bool rgb_indicators_enabled = true;
 static bool was_suspended = false;
@@ -277,6 +292,7 @@ static uint32_t wake_t = 0;
 static uint8_t wake_retry = 0;
 #endif
 static bool shift_pressed_for_caps_word = false;
+
 
 void reset_last_activity_timer(void) {
     last_activity_timer = timer_read32();
@@ -358,41 +374,6 @@ bool process_record_userspace(uint16_t keycode, keyrecord_t *record) {
     #endif
     #endif
 
-    #if defined(KEYBOARD_IS_WOMIER)
-    // if LOCK_LAYR, bypass the wake system entirely
-    if (get_highest_layer(layer_state) == LOCK_LAYR) {
-        return true;
-    }
-
-    if (waking) {
-
-        matrix_stable = false;
-        stable_timer  = timer_read32();
-
-        if (record->event.pressed) {
-            // Track modifiers
-            if (keycode == KC_LCTL || keycode == KC_RCTL ||
-                keycode == KC_LSFT || keycode == KC_RSFT ||
-                keycode == KC_LALT || keycode == KC_RALT ||
-                keycode == KC_LGUI || keycode == KC_RGUI) {
-
-                held_modifiers |= MOD_BIT(keycode); // store mod key
-            }
-            // Track normal keys
-            else {
-                for (int i = 0; i < 6; i++) {
-                    if (held_keys[i] == 0) {
-                        held_keys[i] = keycode;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return false; // suppress
-    }
-    #endif
-
     // record key index pressed for rgb reactive changes
     if (enable_keytracker && !is_macro_playing && keycode != QK_LEAD && keycode != KC_NO && keycode != NOKEY) {
         uint8_t key_idx = g_led_config.matrix_co[record->event.key.row][record->event.key.col];
@@ -465,6 +446,41 @@ bool process_record_userspace(uint16_t keycode, keyrecord_t *record) {
         }
         #endif
     }
+
+    #if defined(KEYBOARD_IS_WOMIER)
+    // if LOCK_LAYR, bypass the wake system entirely
+    if (get_highest_layer(layer_state) == LOCK_LAYR) {
+        return true;
+    }
+
+    if (waking) {
+
+        matrix_stable = false;
+        stable_timer  = timer_read32();
+
+        if (record->event.pressed) {
+            // Track modifiers
+            if (keycode == KC_LCTL || keycode == KC_RCTL ||
+                keycode == KC_LSFT || keycode == KC_RSFT ||
+                keycode == KC_LALT || keycode == KC_RALT ||
+                keycode == KC_LGUI || keycode == KC_RGUI) {
+
+                held_modifiers |= MOD_BIT(keycode); // store mod key
+            }
+            // Track normal keys
+            else {
+                for (int i = 0; i < 6; i++) {
+                    if (held_keys[i] == 0) {
+                        held_keys[i] = keycode;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return false; // suppress
+    }
+    #endif
 
     // stop color test if active and a key is pressed
     if (color_test && record->event.pressed) {
@@ -4989,18 +5005,28 @@ void matrix_scan_user(void) {
 
     // 2. REPLAY WINDOW
     if (matrix_stable && timer_elapsed32(wake_timer) >= WAKE_REPLAY_MS) {
+        // only try replay every REPLAY_CHECK_MS
+        if (timer_elapsed32(last_replay_check) < REPLAY_CHECK_MS) return;
+        last_replay_check = timer_read32();
+
+        if (!host_ready()) {
+            wls_transport_enable(true);
+            return; // Host not ready; try again on next scan
+        }
+        // connected -> perform replay
         waking = false;
 
         if (get_highest_layer(layer_state) != LOCK_LAYR) {
 
             uint8_t mods_phys = get_mods();
+            tap_code16(KC_F24); // wakeup the dongle
 
-            // ---- Replay modifiers ----
+            // ---- replay modifiers ----
             if (held_modifiers) {
                 add_mods(held_modifiers);
             }
 
-            // ---- Replay normal keys ----
+            // ---- replay normal keys ----
             for (int i = 0; i < 6; i++) {
                 if (held_keys[i] != 0) {
                     register_code(held_keys[i]);
@@ -5009,7 +5035,7 @@ void matrix_scan_user(void) {
 
             send_keyboard_report();
 
-            // ---- Release normal keys ----
+            // ---- release normal keys ----
             for (int i = 0; i < 6; i++) {
                 if (held_keys[i] != 0) {
                     unregister_code(held_keys[i]);
@@ -5017,15 +5043,16 @@ void matrix_scan_user(void) {
                 }
             }
 
-            // ---- Remove modifiers not physically held ----
+            // ---- remove modifiers not physically held ----
             uint8_t mods_to_remove = held_modifiers & ~mods_phys;
-            if (mods_to_remove) del_mods(mods_to_remove);
+            if (mods_to_remove)
+                del_mods(mods_to_remove);
         }
 
         held_modifiers = 0;
     }
 
-#endif
+#endif // KEYBOARD_IS_WOMIER
 #if defined(KEYBOARD_IS_KEYCHRON) || defined(KEYBOARD_IS_LEMOKEY)
     if (wake_seq_active) { 
         switch (wake_step) {
@@ -5127,13 +5154,24 @@ void suspend_power_down_user(void) {
 void suspend_wakeup_init_user(void) {
     dprintf("suspend_wakeup_init_user()\n");
     #if defined(KEYBOARD_IS_WOMIER)
-    waking = true;
-    matrix_stable = false;
-    wake_timer = timer_read32();
-    stable_timer = timer_read32();
-    // clear held state
-    held_modifiers = 0;
-    for (int i=0; i<6; i++) held_keys[i] = 0;
+    if (!first_power_on) {
+        #if defined(WIRELESS_ENABLE)
+        // Start reconnecting immediately
+        wls_transport_enable(true);
+        wait_ms(10);
+        #endif
+        waking = true;
+        matrix_stable = false;
+        wake_timer = timer_read32();
+        stable_timer = timer_read32();
+        last_replay_check = timer_read32();
+        // clear held state
+        held_modifiers = 0;
+        for (int i=0; i<6; i++) held_keys[i] = 0;
+    }
+    else {
+        first_power_on = false;
+    }
     #elif defined(KEYBOARD_IS_BRIDGE)
     wait_ms(60);
     #endif
