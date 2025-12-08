@@ -5003,6 +5003,7 @@ void matrix_scan_user(void) {
         matrix_stable = true;
     }
 
+
     // 2. REPLAY WINDOW
     if (matrix_stable && timer_elapsed32(wake_timer) >= WAKE_REPLAY_MS) {
         // only try replay every REPLAY_CHECK_MS
@@ -5017,8 +5018,8 @@ void matrix_scan_user(void) {
         waking = false;
 
         if (get_highest_layer(layer_state) != LOCK_LAYR) {
-
             uint8_t mods_phys = get_mods();
+
             tap_code16(KC_F24); // wakeup the dongle
 
             // ---- replay modifiers ----
@@ -5158,7 +5159,7 @@ void suspend_wakeup_init_user(void) {
         #if defined(WIRELESS_ENABLE)
         // Start reconnecting immediately
         wls_transport_enable(true);
-        wait_ms(10);
+        tap_code16(KC_NO);
         #endif
         waking = true;
         matrix_stable = false;
