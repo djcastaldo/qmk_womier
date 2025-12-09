@@ -233,9 +233,9 @@ uint32_t wls_action_timer;
 #endif
 #if defined(KEYBOARD_IS_WOMIER)
 // wake tracking
-#define WAKE_STABILIZE_MS 100     // time for matrix to settle
-#define WAKE_REPLAY_MS    400     // delay before replay begins
-#define REPLAY_CHECK_MS   80      // how often to retry replay if host not ready
+#define WAKE_STABILIZE_MS 50      // time for matrix to settle
+#define WAKE_REPLAY_MS    150     // delay before replay begins
+#define REPLAY_CHECK_MS   25      // how often to retry replay if host not ready
 static bool waking = false; // we are in wake-suppression window
 static bool matrix_stable = false;
 static bool need_to_wake_dongle = false;
@@ -248,8 +248,6 @@ static uint32_t last_replay_check = 0;
 // Track modifiers held during wake
 static uint8_t held_modifiers = 0;
 static uint16_t held_keys[6] = {0};  // up to 6 keys for standard
-// use this to see if this is very first power on or a real resume from suspend
-static bool first_power_on = true;
 // ----------------------------------------
 // HOST READY CHECK
 // ----------------------------------------
@@ -5025,7 +5023,7 @@ void matrix_scan_user(void) {
 
             case 1:
                 // Wait 20–30ms after resume for USB/BLE to become ready
-                if (timer_elapsed32(dongle_wake_stage_time) > 45) {
+                if (timer_elapsed32(dongle_wake_stage_time) > 25) {
                     dprintf("dongle_wake_stage=%u\n", dongle_wake_stage);
                     tap_code(KC_F24);  // First wake signal
                     dongle_wake_stage = 2;
@@ -5035,7 +5033,7 @@ void matrix_scan_user(void) {
 
             case 2:
                 // Second wake signal for deep-sleep dongles
-                if (timer_elapsed32(dongle_wake_stage_time) > 35) {
+                if (timer_elapsed32(dongle_wake_stage_time) > 15) {
                     dprintf("dongle_wake_stage=%u\n", dongle_wake_stage);
                     tap_code(KC_F24);  // Second wake signal
                     dongle_wake_stage = 3;
@@ -5045,7 +5043,7 @@ void matrix_scan_user(void) {
 
             case 3:
                 // Final delay before the keyboard is allowed to send real keys
-                if (timer_elapsed32(dongle_wake_stage_time) > 30) {
+                if (timer_elapsed32(dongle_wake_stage_time) > 10) {
                     dprintf("dongle_wake_stage=%u\n", dongle_wake_stage);
                     need_to_wake_dongle = false;
                     dongle_wake_stage = 0;
@@ -5224,36 +5222,26 @@ void suspend_power_down_user(void) {
 // --- wakeup hook ----
 void suspend_wakeup_init_user(void) {
     dprintf("suspend_wakeup_init_user()\n");
-    #if defined(KEYBOARD_IS_WOMIER)
-    if (!first_power_on) {
-     #if defined(WIRELESS_ENABLE)
-        // Start reconnecting immediately
-        if (get_transport() != TRANSPORT_USB)
-            wls_transport_enable(true);
-        // schedule dongle wake for later
-        need_to_wake_dongle = true;
-        dongle_wake_stage = 1;
-        dongle_wake_stage_time = timer_read32();
-     #endif
-        waking = true;
-        matrix_stable = false;
-        wake_timer = timer_read32();
-        stable_timer = timer_read32();
-        last_replay_check = timer_read32();
-        // reset replay poke guard
-        replay_poked = false;
-    }
-    else {
-        // clear held state
-        held_modifiers = 0;
-        for (int i=0; i<6; i++) held_keys[i] = 0;
-        keyboard_report->mods = 0;
-        for (int i = 0; i < 6; i++) keyboard_report->keys[i] = 0;
-        first_power_on = false;
-    }
-    #elif defined(KEYBOARD_IS_BRIDGE)
-    wait_ms(60);
+   #if defined(KEYBOARD_IS_WOMIER)
+    #if defined(WIRELESS_ENABLE)
+    // Start reconnecting immediately
+    if (get_transport() != TRANSPORT_USB)
+        wls_transport_enable(true);
+    // schedule dongle wake for later
+    need_to_wake_dongle = true;
+    dongle_wake_stage = 1;
+    dongle_wake_stage_time = timer_read32();
     #endif
+    waking = true;
+    matrix_stable = false;
+    wake_timer = timer_read32();
+    stable_timer = timer_read32();
+    last_replay_check = timer_read32();
+    // reset replay poke guard
+    replay_poked = false;
+   #elif defined(KEYBOARD_IS_BRIDGE)
+    wait_ms(60);
+   #endif
     rgb_indicators_enabled = false;
     deferred_indicator_enable = true;
     deferred_indicator_timer = timer_read32() + 1000;
