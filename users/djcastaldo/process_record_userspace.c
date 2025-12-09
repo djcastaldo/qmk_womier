@@ -254,10 +254,7 @@ static uint16_t held_keys[6] = {0};  // up to 6 keys for standard
 static bool host_ready(void) {
 #if defined(WIRELESS_ENABLE)
     // Womier's wireless state enum
-    if (*md_getp_state() == MD_STATE_CONNECTED || get_transport() == TRANSPORT_USB)
-        return true;
-    else
-        return false; 
+    return (*md_getp_state() == MD_STATE_CONNECTED || get_transport() == TRANSPORT_USB);
 #else
     return true;   // wired boards always ready
 #endif
