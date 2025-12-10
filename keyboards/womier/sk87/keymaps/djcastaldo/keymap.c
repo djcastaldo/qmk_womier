@@ -124,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //:  _______________________________________________________________________________________   ________________  :
 //: |    ||    ||    ||    ||    ||    ||    ||    ||    ||    ||Time||Arro||Wave||         | |LLck||TPrv||WPrv| :
 //: |____||____||____||____||____||____||____||____||____||____||____||____||____||_________| |____||____||____| :
-//: |M(TMUX)||WMa2||WMa1||Mail||RPho||WPho||    ||Uni ||    ||    ||    ||Rec1||Rec2||      | |SLck||TNxt||WNxt| :
+//: |M(TMUX)||WMa2||WMa1||Mail||RPho||WPho||    ||Uni ||    ||    ||    ||Rec1||Rec2||VS/EMO| |SLck||TNxt||WNxt| :
 //: |_______||____||____||____||____||____||____||____||____||____||____||____||____||______| |____||____||____| :
 //: |        ||Addr||City||ZIP ||Phon||    ||    ||    ||    ||Lead||    ||    ||           |                    :
 //: |________||____||____||____||____||____||____||____||____||____||____||____||___________|        ____        :
@@ -136,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [FN_LAYR] = LAYOUT_ansi(
 	_______, _______, _______, VI_REPLACE, _______, GIT_CHKOUT, _______, _______, GIT_LOG, GIT_ADD, GIT_COMMIT, _______, GIT_PUSH, KC_F13, SSMENU, MOD_SIRI, GNEWS,
 	_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, TIMESTAMP, ARROW, WAVE, _______, LLOCK, V_TAB_PRV, V_WSPC_PRV,
-	MO(TMUX_LAYR), SECRET3, SECRET2, SECRET1, SECRET8, SECRET9, _______, UNICODE, _______, _______, _______, DM_REC1, DM_REC2, _______, KC_SCRL, V_TAB_NXT, V_WSPC_NXT,
+	MO(TMUX_LAYR), SECRET3, SECRET2, SECRET1, SECRET8, SECRET9, _______, UNICODE, _______, _______, _______, DM_REC1, DM_REC2, VSEMOLR, KC_SCRL, V_TAB_NXT, V_WSPC_NXT,
 	_______, SECRET4, SECRET5, SECRET6, SECRET7, _______, _______, _______, _______, QK_LEAD, _______, _______, _______, _______,
 	MO(SFT_LAYR), _______, _______, SECRET10, SECRET11, SECRET12, SECRET13, _______, _______, DM_PLY1, DM_PLY2, _______, MO(SFT_LAYR), _______,
 	_______, WM_SYM, MO(KCTL_LAYR), _______,          _______,           _______, MO(KCTL_LAYR), WM_SYM, _______, _______, _______, _______, _______
@@ -349,9 +349,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //:  _______________________________________________________________________________________   ________________  :
 //: |    || E1 || E2 || E3 || E4 || E5 || E6 || E7 || E8 || E9 || E0 || E- || E+ ||         | |LLck||EDri||EMrk| :
 //: |____||____||____||____||____||____||____||____||____||____||____||____||____||_________| |____||____||____| :
-//: |       ||Piza||Burg||Chik||Taco||    ||    ||    || EI ||EOK ||Pack||US  ||PI  ||Glob  | |EDel||ECMk||EQMk| :
+//: |       ||Piza||Burg||Chik||Taco||    ||    ||    || EI ||EOK ||Pack||US  ||PI  ||      | |EDel||ECMk||EQMk| :
 //: |_______||____||____||____||____||____||____||____||____||____||____||____||____||______| |____||____||____| :
-//: |        ||Star||SunG||    ||    ||    ||Hash||    ||Keyb||    ||    ||    ||           |                    :
+//: |        ||Star||SunG||    ||    ||Glbe||Hash||    ||Keyb||    ||    ||    ||           |                    :
 //: |________||____||____||____||____||____||____||____||____||____||____||____||___________|        ____        :
 //: |           ||    ||    ||    ||    ||Botl||    ||    ||Shh ||Grim||Div ||              |       |EUp |       :
 //: |___________||____||____||____||____||____||____||____||____||____||____||______________|  ____ |____| ____  :
@@ -361,8 +361,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [EMO_LAYR] = LAYOUT_ansi(
         _______, E_SMILE, E_SMIRK, E_ASTON, E_SAD, E_CAR, E_BUS, E_TRAIN, E_TAXI, E_SNAIL, E_NINJA, E_STOP, E_HAND, ENC_UNIMENU, E_SSHOT, E_MIC, E_BULB,
         _______,E_K1,E_K2,E_K3,E_K4,E_K5,E_K6,E_K7,E_K8,E_K9,E_K0,E_MINS,E_PLUS,_______,LLOCK,E_DRINK,E_EMARK,
-        _______, E_PIZZA, E_BURGER, E_CHICKEN, E_TACO, _______, _______, _______, E_I, E_OK, E_PACKAGE, E_FLAGUS, E_FLAGPI, E_GLOBE, E_TRASH, E_CMARK, E_QMARK,
-        _______,E_STAR,E_SGLASS,_______,_______,_______,E_HASH,_______,E_KB,_______,_______,_______,_______,_______,
+        _______, E_PIZZA, E_BURGER, E_CHICKEN, E_TACO, _______, _______, _______, E_I, E_OK, E_PACKAGE, E_FLAGUS, E_FLAGPI, _______, E_TRASH, E_CMARK, E_QMARK,
+        _______,E_STAR,E_SGLASS,_______,_______,E_GLOBE,E_HASH,_______,E_KB,_______,_______,_______,_______,_______,
         _______, _______, _______,_______,_______,_______, E_BOTTLE, _______, _______, E_SHH, E_GRIM, E_DIV, _______, E_POINTU,
         _______,_______,_______, _______,       _______,      _______, _______,_______,_______,_______,E_POINTL,E_POINTD,E_POINTR
     ),
