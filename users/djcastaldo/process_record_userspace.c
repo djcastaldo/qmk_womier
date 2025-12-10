@@ -3964,6 +3964,12 @@ bool process_leader_userspace(void) {
     else if (leader_sequence_four_keys(KC_Q, KC_F, KC_K, KC_Q)) {  // qmk flash keychron Q6 firmware
         SEND_STRING("qmk flash -j 0 -kb keychron/q6_max/ansi_encoder -km djcastaldo" SS_TAP(X_ENT));
     }
+    else if (leader_sequence_five_keys(KC_Q, KC_C, KC_K, KC_Q, KC_Q)) {  // qmk compile keychron Q65 firmware
+        SEND_STRING("qmk compile -j 0 -kb keychron/q65_max/ansi_encoder -km djcastaldo" SS_TAP(X_ENT));
+    }
+    else if (leader_sequence_five_keys(KC_Q, KC_F, KC_K, KC_Q, KC_Q)) {  // qmk flash keychron Q65 firmware
+        SEND_STRING("qmk flash -j 0 -kb keychron/q65_max/ansi_encoder -km djcastaldo" SS_TAP(X_ENT));
+    }
     else if (leader_sequence_five_keys(KC_A, KC_S, KC_P, KC_D, KC_C)) {  // asp.net decrypt connectionStrings path from clipboard
         rdp_send_string("C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\aspnet_regiis -pdf connectionStrings ");
         START_KEY_SEQUENCE(paste_seq);
