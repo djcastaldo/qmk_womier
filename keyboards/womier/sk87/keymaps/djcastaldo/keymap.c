@@ -159,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //: |_____||_____||_____||_____________________________________||_____||_____||_____||______| |____||____||____| :
 //`--------------------------------------------------------------------------------------------------------------`
     [SFT_LAYR] = LAYOUT_ansi(
-	_______, KC_BRIU, KC_BRID, KC_MCTL, KC_LPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_CALC, FHOME, FDOCS, FDOWNL,
+	_______, KC_BRIU, KC_BRID, KC_MCTL, KC_LPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_CALC, KC_MYCM, WM_DOCS, WM_DLS,
 	WM_QUIT, WM_SOC1, WM_SOC2, WM_SOC3, WM_SOC4, WM_SOC5, WM_SOC6, WM_SOC7, WM_SOC8, WM_SOC9, WM_SOC0, _______, _______, _______, LLOCK, V_TAB_PRV, SCMDGRAVE,
 	MK_ACCEL2, FQLOOK, _______, _______, _______, TIMESTAMP, _______, KC_P7, KC_P8, KC_P9, DUAL_PLUSMIN, CURSORL, CURSORR, TOVERVIEW, FDELETE, V_TAB_NXT, CMDGRAVE,
 	_______, FAPPS, _______, _______, _______, _______, _______, KC_P4, KC_P5, KC_P6, DUAL_MULTDIV, KC_NUM, _______, _______,
