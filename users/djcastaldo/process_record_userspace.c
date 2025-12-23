@@ -790,6 +790,16 @@ bool process_record_userspace(uint16_t keycode, keyrecord_t *record) {
             }
         }
         return false;
+    case WM_SIRCAT:
+        if (record->event.pressed) {
+            if (is_mac_base()) {
+                tap_code16(MOD_SIRI);
+            }
+            else {
+                tap_code16(US_CATANA);
+            }
+        }
+        return false;
     case VSEMOLR:
         if (record->event.pressed) {
             if (is_mac_base()) {
