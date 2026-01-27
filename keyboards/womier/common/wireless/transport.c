@@ -5,6 +5,8 @@
 #include "module.h"
 #include "usb_main.h"
 #include "transport.h"
+// djc: for battery drain mode
+#include "process_record_userspace.h"
 
 #ifndef USB_POWER_DOWN_DELAY
 #    define USB_POWER_DOWN_DELAY 3000
@@ -47,9 +49,16 @@ void usb_transport_enable(bool enable) {
     if (enable) {
         if (host_get_driver() != &chibios_driver) {
             extern bool last_suspend_state;
-
-            /* This flag is not set to 1 with probability after usb restart */
-            last_suspend_state = true;
+            
+            // djc added for battery drain mode
+            if (!battery_drain_mode) {
+                /* This flag is not set to 1 with probability after usb restart */
+                last_suspend_state = true;
+            }
+            // djc added to prevent rgb suspend when in battery drain mode
+            else {
+                last_suspend_state = false;
+            }
 #if !defined(KEEP_USB_CONNECTION_IN_WIRELESS_MODE)
             usb_power_connect();
             restart_usb_driver(&USBD1);
