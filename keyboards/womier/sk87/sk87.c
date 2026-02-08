@@ -405,7 +405,7 @@ void rgb_matrix_wls_indicator(void) {
                     }
                 }
             }
-            // fkeys start at index 1 and numkeys at index 15, but the 0 key is index 23
+            // fkeys start at index 1 and numkeys count down from index 32 with the 0 key at index 23
             uint8_t fkey_index = batlevel_indicator_level / 10;
             uint8_t numkey_index = (batlevel_indicator_level % 10 == 0 ? 23 : (33 - batlevel_indicator_level % 10));
             // now show the actual percentage using F keys and nubmer keys
