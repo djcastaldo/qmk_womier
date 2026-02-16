@@ -3,8 +3,10 @@
 
 #pragma once
 
+#define RGB_MATRIX_TIMEOUT 0
 #ifdef WIRELESS_ENABLE
-#    define LPWR_TIMEOUT RGB_MATRIX_TIMEOUT
+//#    define LPWR_TIMEOUT RGB_MATRIX_TIMEOUT
+#    define LPWR_TIMEOUT 300000
 #    define WLS_KEYBOARD_REPORT_KEYS 5
 
 #endif
