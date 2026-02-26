@@ -82,6 +82,7 @@
 #    define CONFIG_RDP_DELAY_MOD 20    // ms for modifiers
 
 /* rgb_matrix_indicators_advanced_user settings */
+#    define CONFIG_BLINK_LAYR_EVEN_WITH_KEYCODE_ASSIGNED
 #    define CONFIG_HAS_LLOCK_KEY
 #    define CONFIG_HAS_KLOCK_KEY
 #    define CONFIG_HAS_ROPT_KEY
